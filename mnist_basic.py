@@ -22,7 +22,7 @@ init = tf.initialize_all_variables()
 with tf.Session() as sess:
 	sess.run(init)
 	for i in range(1001):
-		batch_xs, batch_ys = mnist.train.next_batch(500) # Batch 100 images
+		batch_xs, batch_ys = mnist.train.next_batch(500) # Batch 500 images
 		sess.run(train_step,feed_dict={x: batch_xs, y_ : batch_ys}) # Run training with batch
 		if i % 100 == 0: # For each 100 steps, print out current accuracy
 			print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_ : mnist.test.labels}))
