@@ -6,11 +6,20 @@ mnist = input_data.read_data_sets("MNIST_data/",one_hot=True)
 x = tf.placeholder(tf.float32, [None,784]) # Bitmax
 y_ = tf.placeholder(tf.float32, [None, 10]) #Answer 0~9
 
-W = tf.Variable(tf.zeros([784,10])) # Weight for fully connected layer #1
-b = tf.Variable(tf.zeros([10])) #Bias for fully connected layer #1
+W = tf.Variable(tf.zeros([784,256])) # Weight for fully connected layer #1
+b = tf.Variable(tf.zeros([256])) #Bias for fully connected layer #1
+
+W2 = tf.Variable(tf.zeros([256,256]))
+b2 = tf.Variable(tf.zeros([256]))
+
+W3 = tf.Variable(tf.zeros([256,10]))
+b3 = tf.Variable(tf.zeros([10]))
 
 # Fully connected layer -> Softmax
-y = tf.nn.softmax(tf.matmul(x,W)+b) #Our guess
+L1 =tf.sigmoid(tf.matmul(x,W)+b) #Our guess
+L2 = tf.sigmoid(tf.matmul(L1,W2)+b2)
+y = tf.nn.softmax(tf.matmul(L2,W3)+b3)
+
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y),reduction_indices=[1])) # Cost function
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy) #Train with GradientDescentOptimizer
 
